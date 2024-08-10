@@ -1,54 +1,97 @@
-import React from 'react'
-import GenderCheckbox from './GenderCheckbox'
+import React, { useState } from 'react';
+import GenderCheckbox from './GenderCheckbox';
+import { Link } from 'react-router-dom';
+import useSignup from '../../hooks/useSignup';
 
 const SignUp = () => {
-  return (
-    <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
-        <div className='w-full p-6 bg-brown-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-50 border border-gray-100'>
-        <h1 className='text-3xl font-semibold text-center text-gray-300'>
-        <span className='text-purple-400'>Lets Chat</span> <br />
-        Sign Up
-        </h1>
-        <form action="">
-            <div>
-                <label className='label p-2'>
-                    <span className='text-base label-text'>Full Name</span>
-                </label>
-                <input type="text" placeholder='John Doe' className='input input-bordered w-full max-w-xs h-10' />
-            </div>
-            <div>
-                <label className='label p-2'>
-                    <span className='text-base label-text'>Username</span>
-                </label>
-                <input type="text" placeholder='john_doe' className='input input-bordered w-full max-w-xs h-10' />
-            </div>
-            <div>
-                <label className='label p-2'>
-                    <span className='text-base label-text'>Password</span>
-                </label>
-                <input type="text" placeholder='********' className='input input-bordered w-full max-w-xs h-10' />
-            </div>
-            <div>
-                <label className='label p-2'>
-                    <span className='text-base label-text'>Confirm Password</span>
-                </label>
-                <input type="text" placeholder='********' className='input input-bordered w-full max-w-xs h-10' />
-            </div>
+    const [inputs, setInputs] = useState({
+        fullname: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        gender: '',
+    });
 
-        <GenderCheckbox/>
-        
-            <a href="#" className="text-sm hover:text-purple-700 hover:underline mt-2 inline-block">
-                Already have an account? Sign in here.
-            </a>
-            <div>
-                <button className='btn btn-sm btn-primary w-full mt-2'>Sign Up</button>
+    const { loading, signup } = useSignup();
+
+    const handleCheckboxChange = (gender) => {
+        setInputs({ ...inputs, gender: gender });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await signup(inputs);
+    };
+
+    return (
+        <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
+            <div className='w-full p-6 bg-brown-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-50 border border-gray-100'>
+                <h1 className='text-3xl font-semibold text-center text-gray-300'>
+                    <span className='text-purple-400'> ChatJyuce </span> <br />
+                    Sign Up
+                </h1>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label className='label p-2'>
+                            <span className='text-base label-text'>Full Name</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder='John Doe'
+                            className='input input-bordered w-full max-w-xs h-10'
+                            value={inputs.fullName}
+                            onChange={(e) => setInputs({ ...inputs, fullname: e.target.value })}
+                        />
+                    </div>
+                    <div>
+                        <label className='label p-2'>
+                            <span className='text-base label-text'>Username</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder='john_doe'
+                            className='input input-bordered w-full max-w-xs h-10'
+                            value={inputs.username}
+                            onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
+                        />
+                    </div>
+                    <div>
+                        <label className='label p-2'>
+                            <span className='text-base label-text'>Password</span>
+                        </label>
+                        <input
+                            type="password"
+                            placeholder='********'
+                            className='input input-bordered w-full max-w-xs h-10'
+                            value={inputs.password}
+                            onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+                        />
+                    </div>
+                    <div>
+                        <label className='label p-2'>
+                            <span className='text-base label-text'>Confirm Password</span>
+                        </label>
+                        <input
+                            type="password"
+                            placeholder='********'
+                            className='input input-bordered w-full max-w-xs h-10'
+                            value={inputs.confirmPassword}
+                            onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
+                        />
+                    </div>
+                    <GenderCheckbox onCheckboxChange={handleCheckboxChange} selectedGender={inputs.gender} />
+                    <Link to="/login" className="text-sm hover:text-purple-700 hover:underline mt-2 inline-block">
+                        Already have an account? Sign in here.
+                    </Link>
+                    <div>
+                        <button type='submit' className='btn btn-sm btn-primary w-full mt-2' disabled={loading}>
+                            {loading ? 'Signing Up...' : 'Sign Up'}
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
         </div>
-        
+    );
+};
 
-    </div>
-  )
-}
-
-export default SignUp
+export default SignUp;

@@ -1,23 +1,32 @@
 import React from 'react'
+import  useConversations  from '../../zustand/useConversations';
 
-const Conversation = () => {
+const Conversation = ({conversation}) => {
+  const { selectedConversation ,setSelectedConversation } = useConversations();
+
+  const isSelected = selectedConversation?._id === conversation._id;
+  
+  const handleClick = () => {
+    setSelectedConversation(conversation);
+  }
+
   return (
     <>
-    <div className='flex items-center gap-2 hover:bg-purple-700 rounded p-2 cursor-pointer'>
+    <div className={`flex items-center gap-2 hover:bg-purple-700 rounded p-2 cursor-pointer ${isSelected ? 'bg-fuchsia-950' : ''} `} onClick={handleClick}>
       <div className='avatar online'>
         <div className='w-8 rounded-full'>
-          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="user avatar" />
+          <img src={conversation.profilepic} alt="user avatar" />
         </div>
       </div>
       <div className='flex-1'>
         <div className='flex justify-between items-center'>
-          <p className='font-bold text-gray-300'>John Doe</p>
-          <span className='text-sm text-gray-400'>10:00</span>
+          <p className='font-bold text-gray-300 text-sm'>{conversation.fullname}</p>
+          <span className='text-xs text-gray-400'>10:00</span>
         </div>
-        <p className='text-gray-400 text-sm truncate'>Last message...</p>
+        <p className='text-gray-400 text-xs truncate'>Last message...</p>
       </div>
     </div>
-    <div className='divider my-0 py-0 h-1'></div>
+  
     </>
   )
 }

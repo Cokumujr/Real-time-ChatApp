@@ -1,27 +1,33 @@
 import React from 'react';
+import useConversations from '../../zustand/useConversations';
+import {useAuthContext }from '../../context/AuthContext';
+import extractTime from '../../utils/extractTime';
 
-const Message = () => {
+const Message = ({message}) => {
+
+  const {authUser} = useAuthContext();
+  const {selectedConversation} = useConversations();
+  const fromMe = message.senderId === authUser._id;
+  const chatTime = extractTime(message.createdAt);
+  const chatClassName = fromMe ? 'chat-end' : 'chat-start';
+  const profilepic = fromMe ? authUser.profilepic : selectedConversation?.profilepic;
+  const bubbleColor = fromMe ? 'chat-bubble bg-purple-600 text-gray-100' : 'chat-bubble bg-white text-gray-900';
+
+  console.log('Profile Pic URL:', profilepic);
+
     return (
         <>
-        <div className='chat chat-start mb-2'>
-          <div className='chat-bubble text-gray-900 bg-white text-sm py-1 px-2'>
-            Hello, how are you today?
-          </div>
-          <div className='chat-footer text-xs opacity-50 flex gap-1 items-center'>
-            10:00 AM
-          </div>
-        </div>
-      <div className='chat chat-end mb-2'>
+        <div className={`chat ${chatClassName} mb-2`}>
         <div className='chat-image avatar'>
           <div className='w-5 rounded-full'>
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="user avatar" />
+            <img src={profilepic} alt="user avatar" />
           </div>
         </div>
-        <div className='chat-bubble text-gray-100 bg-purple-600 text-sm py-1 px-2'>
-          We Mzee! Semaje?
+        <div className={`${bubbleColor} text-sm py-1 px-2`}>
+          {message.message}
         </div>
         <div className='chat-footer text-xs opacity-50 flex gap-1 items-center'>
-          10:30 AM
+          {chatTime}
         </div>
       </div>
       </>
