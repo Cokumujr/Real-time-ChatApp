@@ -8,18 +8,18 @@ const signup = async (req, res) => {
 
         // Validate input fields
         if (!fullname ||!username ||!password ||!confirmPassword ||!gender) {
-            return res.status(400).json({ message: 'All fields are required' });
+            return res.status(400).json({ error: 'All fields are required' });
         }
 
         // Check if passwords match
         if (password !== confirmPassword) {
-            return res.status(400).json({ message: 'Passwords do not match' });
+            return res.status(400).json({ error: 'Passwords do not match' });
         }
 
         // Check if the username already exists
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(400).json({ message: 'Username already exists' });
+            return res.status(400).json({ error: 'Username already exists' });
         }
 
         // Hash the password
@@ -61,7 +61,7 @@ const signup = async (req, res) => {
 
     } catch (error) {
         console.log("Error in signup process:", error.message);
-        res.status(500).send({ error: "Internal server error" });
+        res.status(500).send({ message: "Internal server error" });
     }
 };
 
@@ -72,7 +72,7 @@ const login = async (req, res) => {
         const passwordValid = await bcrypt.compare(password,user?.password|| '');
 
         if(!user||!passwordValid){
-            return res.status(401).json({ message: 'Invalid username or password' });
+            return res.status(401).json({ error: 'Invalid username or password' });
         }
 
         generateTokenAndSetCookie(user._id, res);
