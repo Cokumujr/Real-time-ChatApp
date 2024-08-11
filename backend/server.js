@@ -9,8 +9,9 @@ const messageRoutes = require('./routes/message.routes');
 const userRoutes = require('./routes/user.routes');
 
 const connectdb = require('./db/connectdb'); 
+const {app,server} = require('./socket/socketio');
 
-const app = express();
+
 const PORT = 5000;
 
 dotenv.config();
@@ -33,7 +34,7 @@ app.use ("/api/users", userRoutes);
 //});
 
 // start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectdb(); 
     console.log(`Server running on port ${PORT}`);
 });
