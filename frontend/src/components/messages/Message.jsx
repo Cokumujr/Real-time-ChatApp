@@ -19,6 +19,7 @@ const Message = ({message}) => {
 
     return (
         <>
+        
         <div className={`chat ${chatClassName} mb-2 `}>
         <div className='chat-image avatar'>
           <div className='w-5 rounded-full'>
@@ -32,6 +33,7 @@ const Message = ({message}) => {
           {chatTime}
         </div>
       </div>
+      
       </>
     );
   };

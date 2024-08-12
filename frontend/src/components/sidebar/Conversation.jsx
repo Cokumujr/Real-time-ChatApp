@@ -1,6 +1,7 @@
 import React from 'react'
 import  useConversations  from '../../zustand/useConversations';
 import { useSocketContext } from '../../context/SocketContext';
+import extractDate from '../../utils/extractDate';
 
 const Conversation = ({conversation}) => {
   const { selectedConversation ,setSelectedConversation } = useConversations();
@@ -8,6 +9,7 @@ const Conversation = ({conversation}) => {
   const isSelected = selectedConversation?._id === conversation._id;
   const {onlineUsers} = useSocketContext();
   const isOnline = onlineUsers.includes(conversation._id);
+  const convoDate = extractDate(conversation.updatedAt);
   
   const handleClick = () => {
     setSelectedConversation(conversation);
@@ -24,9 +26,9 @@ const Conversation = ({conversation}) => {
       <div className='flex-1'>
         <div className='flex justify-between items-center'>
           <p className='font-bold text-gray-300 text-sm'>{conversation.fullname}</p>
-          <span className='text-xs text-gray-400'>10:00</span>
+          <span className='text-xs text-gray-400'>{convoDate}</span>
         </div>
-        <p className='text-gray-400 text-xs truncate'>Last message...</p>
+        <p className='text-gray-400 text-xs truncate'>Start Chat...</p>
       </div>
     </div>
   

@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -29,9 +30,21 @@ app.use ("/api/messages", messageRoutes);
 app.use ("/api/users", userRoutes);
 
 
-//app.get('/', (req, res) => {
- //   res.send("Welcome to my application");
-//});
+// Adjust the path to point to the correct location of your frontend build
+//const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'dist');
+
+// Serve static files from the frontend build directory
+//app.use(express.static(frontendBuildPath));
+
+// Handle other routes
+/*app.get('*', (req, res) => {
+  console.log('Serving index.html');
+  res.sendFile(path.join(frontendBuildPath, 'index.html'));
+});
+
+// Log the paths for debugging
+console.log('Static files path:', frontendBuildPath);
+console.log('Index.html path:', path.join(frontendBuildPath, 'index.html'));*/
 
 // start server
 server.listen(PORT, () => {
