@@ -13,7 +13,7 @@ const connectdb = require('./db/connectdb');
 const {app,server} = require('./socket/socketio');
 
 
-const PORT = 5000;
+const PORT =  process.env.PORT || 5000;
 
 dotenv.config();
 
