@@ -31,20 +31,20 @@ app.use ("/api/users", userRoutes);
 
 
 // Adjust the path to point to the correct location of your frontend build
-//const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'dist');
+const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'dist');
 
 // Serve static files from the frontend build directory
-//app.use(express.static(frontendBuildPath));
+app.use(express.static(frontendBuildPath));
 
 // Handle other routes
-/*app.get('*', (req, res) => {
+app.get('*', (req, res) => {
   console.log('Serving index.html');
   res.sendFile(path.join(frontendBuildPath, 'index.html'));
 });
 
 // Log the paths for debugging
 console.log('Static files path:', frontendBuildPath);
-console.log('Index.html path:', path.join(frontendBuildPath, 'index.html'));*/
+console.log('Index.html path:', path.join(frontendBuildPath, 'index.html'));
 
 // start server
 server.listen(PORT, () => {
